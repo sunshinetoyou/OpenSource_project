@@ -3,10 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>오픈소스 프로젝트</title>
+    <style>
+        .star-rating { direction: rtl; display: inline-block; font-size: 2rem; }
+        .star-rating input[type="radio"] { display: none; }
+        .star-rating label { color: #ddd; cursor: pointer; }
+        .star-rating input[type="radio"]:checked ~ label { color: #ffc700; }
+        .star-rating label:hover, .star-rating label:hover ~ label { color: #ffc700; }
+    </style>
 </head>
 <body>
     <h2>{{ project.subject }}</h2>
     <p>{{ project.detail }}</p>
     
+    <h3>별점 평가</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="star-rating">
+            <input type="radio" id="star5" name="score" value="5"><label for="star5">&#9733;</label>
+            <input type="radio" id="star4" name="score" value="4"><label for="star4">&#9733;</label>
+            <input type="radio" id="star3" name="score" value="3"><label for="star3">&#9733;</label>
+            <input type="radio" id="star2" name="score" value="2"><label for="star2">&#9733;</label>
+            <input type="radio" id="star1" name="score" value="1"><label for="star1">&#9733;</label>
+        </div>
+        <br>
+        <button type="submit">평가하기</button>
+    </form>
 </body>
 </html>
