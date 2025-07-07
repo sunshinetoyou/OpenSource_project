@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from .models import Project, Vote
 
 def project_list(req):
-    return render(req, 'polls/base.html')
+    projects = Project.objects.all()
+    context = {'projects': projects}
+    return render(req, 'polls/project_list.html', context)

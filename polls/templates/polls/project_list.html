@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="kr">
+    <head>
+        <meta charset="UTF-8">
+        <title>오픈소스 프로젝트</title>
+    </head>
+    <body>
+        <h1>프로젝트 평가 사이트</h1>
+        <div class="container">
+            {% block content %}
+            <h2>프로젝트 목록</h2>
+            <ul class="list-group">
+                {% for project in projects %}
+                    <li class="list-group-item">
+                        {{ project.title }}</a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">등록된 프로젝트가 없습니다.</li>
+                {% endfor %}
+            </ul>
+            {% endblock %}
+        </div>
+    </body>
+</html>
