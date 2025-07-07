@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>오픈소스 프로젝트</title>
+    </head>
+    <body>
+        {% block content %}
+        <h2>프로젝트 평가 분석 (점수 높은 순)</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>순위</th>
+                    <th>프로젝트명</th>
+                    <th>평균 점수</th>
+                    <th>투표 수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ project.title }}</td>
+                    <td>
+                        {% if project.avg_score %}
+                            {{ project.avg_score|floatformat:2 }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ project.vote_count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">등록된 프로젝트가 없습니다.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endblock %}
+    </body>
+</html>

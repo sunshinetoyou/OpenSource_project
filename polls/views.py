@@ -1,3 +1,5 @@
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Avg
 from .models import Project, Vote
@@ -28,3 +30,17 @@ def project_result(request, pk):
         'avg_score': avg_score,
         'vote_count': vote_count,
     })
+
+def admin_dashboard(request):
+    projects = Project.objects.annotate(
+        avg_score=Avg('vote__score'),
+        vote_count=Count('vote')
+    ).order_by('-avg_score')
+    return render(request, 'polls/admin_dashboard.html', {'projects': projects})
+
+@receiver([post_save, post_delete], sender=Vote)
+def update_project_avg_score(sender, instance, **kwargs):
+    project = instance.project
+    avg = project.vote_set.aggregate(avg=Avg('score'))['avg']
+    project.avg_score = avg
+    project.save(update_fields=['avg_score'])
